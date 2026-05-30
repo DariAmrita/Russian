@@ -1,22 +1,24 @@
 /* =========================
-CSS (CodePen -> CSS)
-========================= */
+   CSS — Дарья Амрита
+   ========================= */
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(
-    180deg,
-    #fff7fb,
-    #e8f8ff,
-    #fff7e6
-  );
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg, #fff7fb, #e8f8ff, #fff7e6);
   color: #333;
+  line-height: 1.5;
 }
 
 .hero {
@@ -28,20 +30,17 @@ body {
 .overlay {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background:
-    radial-gradient(circle at top left,
-      rgba(255,192,203,0.25),
-      transparent 40%),
-    radial-gradient(circle at bottom right,
-      rgba(173,216,230,0.25),
-      transparent 40%);
+    radial-gradient(circle at top left, rgba(255, 192, 203, 0.25), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(173, 216, 230, 0.25), transparent 40%);
 }
 
 .content {
   position: relative;
   z-index: 2;
   max-width: 850px;
-  margin: auto;
+  margin: 0 auto;
   padding: 40px 20px 80px;
   text-align: center;
 }
@@ -51,21 +50,15 @@ body {
   height: 180px;
   border-radius: 50%;
   object-fit: cover;
-  border: 6px solid white;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border: 6px solid #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   margin-bottom: 25px;
 }
 
-h1 {
+.page-title {
   font-size: 48px;
   margin-bottom: 10px;
   color: #ff5fa2;
-}
-
-h2 {
-  font-size: 24px;
-  color: #5a7cff;
-  margin-bottom: 30px;
 }
 
 .intro {
@@ -75,19 +68,21 @@ h2 {
 }
 
 .card {
-  background: rgba(255,255,255,0.75);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 24px;
   padding: 30px;
   margin-bottom: 25px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   text-align: left;
 }
 
-.card h3 {
+.card__title {
   margin-bottom: 20px;
   color: #5a7cff;
   font-size: 28px;
+  font-weight: bold;
 }
 
 .card p {
@@ -96,14 +91,22 @@ h2 {
   font-size: 18px;
 }
 
-.card ul {
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.card__list {
   list-style: none;
 }
 
-.card li {
+.card__list li {
   margin-bottom: 14px;
   line-height: 1.6;
   font-size: 18px;
+}
+
+.card__list li:last-child {
+  margin-bottom: 0;
 }
 
 .quote {
@@ -117,39 +120,47 @@ h2 {
 .button {
   display: inline-block;
   padding: 18px 40px;
+  border: none;
   border-radius: 50px;
+  cursor: pointer;
   text-decoration: none;
-  background: linear-gradient(
-    90deg,
-    #ff77aa,
-    #7ecbff
-  );
-  color: white;
+  background: linear-gradient(90deg, #ff77aa, #7ecbff);
+  color: #fff;
   font-size: 22px;
   font-weight: bold;
-  transition: 0.3s;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .button:hover {
   transform: scale(1.05);
 }
 
-.footer {
+.button:focus-visible {
+  outline: 3px solid #5a7cff;
+  outline-offset: 4px;
+}
+
+.site-footer {
   margin-top: 50px;
   font-size: 20px;
   color: #666;
 }
 
-/* 📱 Телефон */
+.contact-card a {
+  color: #5a7cff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.contact-card a:hover,
+.contact-card a:focus-visible {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
-
-  h1 {
+  .page-title {
     font-size: 36px;
-  }
-
-  h2 {
-    font-size: 20px;
   }
 
   .intro {
@@ -160,12 +171,12 @@ h2 {
     padding: 22px;
   }
 
-  .card h3 {
+  .card__title {
     font-size: 24px;
   }
 
   .card p,
-  .card li {
+  .card__list li {
     font-size: 16px;
   }
 
@@ -176,5 +187,19 @@ h2 {
   .button {
     width: 100%;
     font-size: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .button {
+    transition: none;
+  }
+
+  .button:hover {
+    transform: none;
   }
 }
