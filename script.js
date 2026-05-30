@@ -1,95 +1,23 @@
-<!-- =========================
-JS (CodePen -> JS)
-========================= -->
+/**
+ * Плавная прокрутка к блоку контактов по кнопке «Связаться со мной»
+ */
+(function () {
+  'use strict';
 
-<div class="hero">
-  <div class="overlay"></div>
+  const contactButton = document.querySelector('[data-scroll-to="contact"]');
+  const contactSection = document.getElementById('contact');
 
-  <div class="content">
-    <img 
-      class="avatar"
-      src="https://i.postimg.cc/G3xcrHGc/Whats-App-Image-2026-05-20-at-17-21-42.jpg"
-      alt="Дарья Амрита"
-    >
+  if (!contactButton || !contactSection) {
+    return;
+  }
 
-    <h1>Дарья Амрита </h1>
-
-    <p class="intro">
-      Вы проходите через непростой период и нуждаетесь
-      в душевной поддержке?
-    </p>
-
-    <div class="card">
-      <h3> Я здесь для того, чтобы:</h3>
-
-      <ul>
-        <li> Предложить эмоциональную и энергетическую опору</li>
-        <li> Подарить теплую женскую поддержку</li>
-        <li> Передать важные послания и наставления</li>
-        <li> Помочь вам осветить ваш путь</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3> Немного обо мне</h3>
-
-      <p>
-        Мне 36 лет, живу в Израиле с 2001 года.
-        Замужем, мама троих замечательных сыновей 
-      </p>
-
-      <p>
-         Степень бакалавра (.B.A)
-        по управлению системами здравоохранения
-      </p>
-    </div>
-
-    <div class="card">
-      <h3> Практики и направления</h3>
-
-      <ul>
-        <li> Космоэнергет</li>
-        <li> Исцеление Энергией Рейки</li>
-        <li> Работа с энергиями Света</li>
-        <li> Свечи из натурального пчелиного воска</li>
-        <li> Энергетические чистки</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3> Кому Я Могу Помочь?</h3>
-
-      <ul>
-        <li> Девушкам и Женщинам</li>
-        <li> Деткам</li>
-        <li> Людям золотого возраста</li>
-        <li> В жизненных вызовах и сложных периодах таких как преопперационный период и послеоперационный период.
-
-Беременность и послеродовой период 
-
-и не только</li>
-      </ul>
-    </div>
-
-    <div class="quote">
-      «Приглашаю вас в свое пространство,
-      чтобы вместе почувствовать,
-      что вам нужно именно сейчас »
-    </div>
-
-    <a class="button" href="#">
-      💌 Связаться со мной
-    </a>
-
-    <div class="footer">
-      Благодарю от всего сердца 
-    </div>
-  </div>
-</div> <div class="card contact-card">
-  <h3></h3>
-
-  <p>
-    Если вам нужна поддержка или вы хотите связаться со мной —
-    позвоните по телефону:050-424-6548
-  </p>
-</div>
+  contactButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    contactSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+    contactSection.setAttribute('tabindex', '-1');
+    contactSection.focus({ preventScroll: true });
+  });
+})();
