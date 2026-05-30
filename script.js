@@ -1,5 +1,5 @@
 <!-- =========================
-HTML (CodePen -> HTML)
+JS (CodePen -> JS)
 ========================= -->
 
 <div class="hero">
