@@ -1,93 +1,115 @@
-<!-- =========================
-HTML (CodePen -> HTML)
-========================= -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Дарья Амрита — эмоциональная и энергетическая поддержка, Рейки, работа с энергиями Света. Израиль.">
+  <title>Дарья Амрита</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-<div class="hero">
-  <div class="overlay"></div>
+  <div class="hero">
+    <div class="overlay" aria-hidden="true"></div>
 
-  <div class="content">
+    <main class="content">
 
-    <img 
-      class="avatar"
-      src="https://i.postimg.cc/G3xcrHGc/Whats-App-Image-2026-05-20-at-17-21-42.jpg"
-      alt="Дарья Амрита"
-    >
+      <header>
+        <img
+          class="avatar"
+          src="https://i.postimg.cc/G3xcrHGc/Whats-App-Image-2026-05-20-at-17-21-42.jpg"
+          alt="Фото — Дарья Амрита"
+          width="180"
+          height="180"
+          loading="eager"
+        >
+        <h1 class="page-title">Дарья Амрита</h1>
+        <p class="intro">
+          Вы проходите через непростой период и нуждаетесь
+          в душевной поддержке?
+        </p>
+      </header>
 
-    <h1>Дарья Амрита</h1>
+      <section class="card" aria-labelledby="help-title">
+        <h2 class="card__title" id="help-title">Я здесь для того, чтобы:</h2>
+        <ul class="card__list">
+          <li>Предложить эмоциональную и энергетическую опору</li>
+          <li>Подарить теплую женскую поддержку</li>
+          <li>Передать важные послания и наставления</li>
+          <li>Помочь вам осветить ваш путь</li>
+        </ul>
+      </section>
 
-    <p class="intro">
-      Вы проходите через непростой период
-      и нуждаетесь в душевной поддержке?
-    </p>
+      <section class="card" aria-labelledby="about-title">
+        <h2 class="card__title" id="about-title">Немного обо мне</h2>
+        <p>
+          Мне 36 лет, живу в Израиле с 2001 года.
+          Замужем, мама троих замечательных сыновей.
+        </p>
+        <p>
+          Степень бакалавра (B.A.)
+          по управлению системами здравоохранения.
+        </p>
+      </section>
 
-    <div class="card">
-      <h3>Я здесь для того, чтобы:</h3>
+      <section class="card" aria-labelledby="practices-title">
+        <h2 class="card__title" id="practices-title">Практики и направления</h2>
+        <ul class="card__list">
+          <li>Космоэнергет</li>
+          <li>Исцеление энергией Рейки</li>
+          <li>Работа с энергиями Света</li>
+          <li>Свечи из натурального пчелиного воска</li>
+          <li>Энергетические чистки</li>
+        </ul>
+      </section>
 
-      <ul>
-        <li>Предложить эмоциональную и энергетическую опору</li>
-        <li>Подарить теплую женскую поддержку</li>
-        <li>Передать важные послания и наставления</li>
-        <li>Помочь вам осветить ваш путь</li>
-      </ul>
-    </div>
+      <section class="card" aria-labelledby="audience-title">
+        <h2 class="card__title" id="audience-title">Кому я могу помочь?</h2>
+        <ul class="card__list">
+          <li>Девушкам и женщинам</li>
+          <li>Деткам</li>
+          <li>Людям золотого возраста</li>
+          <li>
+            В жизненных вызовах и сложных периодах, таких как
+            предоперационный и послеоперационный период,
+            беременность, послеродовой период и не только.
+          </li>
+        </ul>
+      </section>
 
-    <div class="card">
-      <h3>Немного обо мне</h3>
+      <blockquote class="quote">
+        <p>
+          «Приглашаю вас в своё пространство,
+          чтобы вместе почувствовать,
+          что вам нужно именно сейчас»
+        </p>
+      </blockquote>
 
-      <p>
-        Мне 36 лет, живу в Израиле с 2001 года.
-        Замужем, мама троих замечательных сыновей.
-      </p>
+      <a class="button" href="#contact" data-scroll-to="contact">
+        💌 Связаться со мной
+      </a>
 
-      <p>
-        Степень бакалавра (.B.A)
-        по управлению системами здравоохранения.
-      </p>
-    </div>
+      <section
+        id="contact"
+        class="card contact-card"
+        aria-labelledby="contact-title"
+        tabindex="-1"
+      >
+        <h2 class="card__title" id="contact-title">Контакты</h2>
+        <p>
+          Если вам нужна поддержка или вы хотите связаться со мной —
+          позвоните по телефону:
+          <a href="tel:+972504246548">050-424-6548</a>
+        </p>
+      </section>
 
-    <div class="card">
-      <h3>Практики и направления</h3>
+      <footer class="site-footer">
+        <p>Благодарю от всего сердца</p>
+      </footer>
 
-      <ul>
-        <li>Космоэнергет</li>
-        <li>Исцеление энергией Рейки</li>
-        <li>Работа с энергиями Света</li>
-        <li>Свечи из натурального пчелиного воска</li>
-        <li>Энергетические чистки</li>
-      </ul>
-    </div>
+    </main>
+  </div>
 
-    <div class="card">
-      <h3>Кому я могу помочь?</h3>
-
-      <ul>
-        <li>Девушкам и женщинам</li>
-        <li>Детям</li>
-        <li>Людям золотого возраста</li>
-        <li>
-          В жизненных вызовах и сложных периодах,
-          таких как предоперационный и послеоперационный период,
-          беременность, послеродовой период и не только.
-        </li>
-      </ul>
-    </div>
-
-    <div class="quote">
-      «Приглашаю вас в свое пространство,
-      чтобы вместе почувствовать,
-      что вам нужно именно сейчас»
-    </div>
-
-    <a class="button" href="tel:0504246548">
-      Связаться со мной
-    </a>
-
-    <!-- БЛОК ТЕЛЕФОНА -->
-
-    <div class="card contact-card">
-
-     
-      <p>
-        Если вам нужна поддержка или вы хотите связаться со мной —
-        позвоните по телефону:050-424-6548
-      </p>
+  <script src="script.js" defer></script>
+</body>
+</html>
