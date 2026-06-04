@@ -62,4 +62,3 @@ html = html.replace(
 
 fs.writeFileSync(outPath, html, 'utf8');
 console.log('Готово: index.html обновлён для GitHub.');
-

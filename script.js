@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   'use strict';
 
   const TRANSLATIONS = {
@@ -701,4 +701,3 @@
     });
   }
 })();
- 

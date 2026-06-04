@@ -7,6 +7,22 @@
   <title>Daria Amrita</title>
   <script>
     (function () {
+      if (!/github\.io$/i.test(location.hostname)) {
+        return;
+      }
+      var parts = location.pathname.split('/').filter(Boolean);
+      if (parts.length && /\.html?$/i.test(parts[parts.length - 1])) {
+        parts.pop();
+      }
+      if (parts.length) {
+        var base = document.createElement('base');
+        base.href = '/' + parts.join('/') + '/';
+        document.head.appendChild(base);
+      }
+    })();
+  </script>
+  <script>
+    (function () {
       if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
       }
@@ -17,7 +33,480 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="./styles.css">
+  <style>
+/* =========================
+   CSS — Дарья Амрита
+   ========================= */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-body: linear-gradient(180deg, #fff7fb, #e8f8ff, #fff7e6);
+  --overlay-1: rgba(255, 192, 203, 0.25);
+  --overlay-2: rgba(173, 216, 230, 0.25);
+  --text: #333;
+  --text-muted: #666;
+  --text-quote: #444;
+  --title: #ff5fa2;
+  --accent: #5a7cff;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-shadow: rgba(0, 0, 0, 0.08);
+  --avatar-border: #fff;
+  --avatar-shadow: rgba(0, 0, 0, 0.15);
+  --btn-gradient: linear-gradient(90deg, #ff77aa, #7ecbff);
+  --btn-shadow: rgba(0, 0, 0, 0.15);
+  --theme-switch-bg: rgba(255, 255, 255, 0.9);
+  --theme-switch-border: rgba(0, 0, 0, 0.08);
+  --theme-switch-inactive: #555;
+  --theme-switch-active-bg: linear-gradient(90deg, #ff77aa, #7ecbff);
+  --theme-switch-active-text: #fff;
+}
+
+[data-theme="dark"] {
+  --bg-body: linear-gradient(180deg, #1a1525, #252038, #1e1a2e);
+  --overlay-1: rgba(255, 127, 180, 0.12);
+  --overlay-2: rgba(126, 203, 255, 0.12);
+  --text: #e8e4f0;
+  --text-muted: #a8a0b8;
+  --text-quote: #d4cee8;
+  --title: #ff8fc4;
+  --accent: #8ba8ff;
+  --card-bg: rgba(40, 34, 58, 0.85);
+  --card-shadow: rgba(0, 0, 0, 0.35);
+  --avatar-border: #3d3558;
+  --avatar-shadow: rgba(0, 0, 0, 0.4);
+  --btn-gradient: linear-gradient(90deg, #c95d8a, #5a9fd4);
+  --btn-shadow: rgba(0, 0, 0, 0.35);
+  --theme-switch-bg: rgba(40, 34, 58, 0.95);
+  --theme-switch-border: rgba(255, 255, 255, 0.1);
+  --theme-switch-inactive: #c8c0d8;
+  --theme-switch-active-bg: linear-gradient(90deg, #c95d8a, #5a9fd4);
+  --theme-switch-active-text: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-body);
+  color: var(--text);
+  line-height: 1.5;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+.toolbar {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  max-width: calc(100% - 32px);
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 12px;
+  border-radius: 50px;
+  background: var(--theme-switch-bg);
+  border: 1px solid var(--theme-switch-border);
+  box-shadow: 0 6px 20px var(--card-shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.lang-switch__icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.lang-switch__select {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  max-width: 160px;
+  padding: 4px 0;
+}
+
+.lang-switch__select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .lang-switch__select {
+  color-scheme: light;
+}
+
+[data-theme="dark"] .lang-switch__select option {
+  color: #1a1a1a;
+  background-color: #fff;
+}
+
+.theme-switch {
+  display: flex;
+  gap: 0;
+  padding: 4px;
+  border-radius: 50px;
+  background: var(--theme-switch-bg);
+  border: 1px solid var(--theme-switch-border);
+  box-shadow: 0 6px 20px var(--card-shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.theme-switch__btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--theme-switch-inactive);
+  background: transparent;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.theme-switch__btn.is-active {
+  background: var(--theme-switch-active-bg);
+  color: var(--theme-switch-active-text);
+}
+
+.theme-switch__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.hero {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, var(--overlay-1), transparent 40%),
+    radial-gradient(circle at bottom right, var(--overlay-2), transparent 40%);
+  transition: background 0.35s ease;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+  text-align: center;
+}
+
+.avatar {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid var(--avatar-border);
+  box-shadow: 0 10px 30px var(--avatar-shadow);
+  margin-bottom: 25px;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.page-title {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: var(--title);
+  transition: color 0.35s ease;
+}
+
+.intro {
+  font-size: 22px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 25px var(--card-shadow);
+  text-align: start;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card__title {
+  margin-bottom: 20px;
+  color: var(--accent);
+  font-size: 28px;
+  font-weight: bold;
+  transition: color 0.35s ease;
+}
+
+.card p {
+  margin-bottom: 15px;
+  line-height: 1.7;
+  font-size: 18px;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.card__list {
+  list-style: none;
+}
+
+.card__list li {
+  margin-bottom: 14px;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+.card__list li:last-child {
+  margin-bottom: 0;
+}
+
+.quote {
+  margin: 40px 0;
+  font-size: 26px;
+  line-height: 1.7;
+  color: var(--text-quote);
+  font-style: italic;
+  transition: color 0.35s ease;
+}
+
+.button {
+  display: inline-block;
+  padding: 18px 40px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-decoration: none;
+  background: var(--btn-gradient);
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.35s ease;
+  box-shadow: 0 10px 25px var(--btn-shadow);
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.site-footer {
+  margin-top: 50px;
+  font-size: 20px;
+  color: var(--text-muted);
+  transition: color 0.35s ease;
+}
+
+.contact-card__lead {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.contact-card__phone {
+  margin-bottom: 20px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.contact-card a {
+  color: var(--accent);
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.35s ease;
+}
+
+.contact-card a:hover,
+.contact-card a:focus-visible {
+  text-decoration: underline;
+}
+
+.contact-card .social-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.social-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 110px;
+  padding: 20px 14px;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 10px 25px var(--card-shadow);
+  text-decoration: none;
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1.3;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.35s ease, background 0.35s ease, color 0.35s ease;
+}
+
+.social-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px var(--card-shadow);
+}
+
+.social-card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+html[lang="zh"] body,
+html[lang="ja"] body,
+html[lang="ko"] body {
+  font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans", "Malgun Gothic", sans-serif;
+}
+
+html[lang="ar"] body,
+html[lang="he"] body {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+    align-items: stretch;
+  }
+
+  .lang-switch {
+    justify-content: center;
+  }
+
+  .lang-switch__select {
+    flex: 1;
+    max-width: none;
+  }
+
+  .theme-switch {
+    justify-content: center;
+  }
+
+  .theme-switch__btn {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .content {
+    padding-top: 120px;
+  }
+
+  .page-title {
+    font-size: 36px;
+  }
+
+  .intro {
+    font-size: 18px;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .card__title {
+    font-size: 24px;
+  }
+
+  .card p,
+  .card__list li,
+  .contact-card__lead,
+  .contact-card__phone {
+    font-size: 16px;
+  }
+
+  .quote {
+    font-size: 22px;
+  }
+
+  .button {
+    width: 100%;
+    font-size: 20px;
+  }
+
+  .contact-card .social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-card {
+    min-height: 72px;
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body,
+  .overlay,
+  .avatar,
+  .page-title,
+  .card,
+  .card__title,
+  .quote,
+  .button,
+  .site-footer,
+  .contact-card a,
+  .social-card,
+  .theme-switch__btn {
+    transition: none;
+  }
+
+  .social-card:hover {
+    transform: none;
+  }
+
+  .button {
+    transition: none;
+  }
+
+  .button:hover {
+    transform: none;
+  }
+}
+
+  </style>
 </head>
 <body>
 
@@ -186,7 +675,711 @@
 
     </main>
   </div>
+  <script>
+﻿(function () {
+  'use strict';
 
-  <script src="./script.js" defer></script>
+  const TRANSLATIONS = {
+  ru: {
+    metaDescription: 'Дарья Амрита — эмоциональная и энергетическая поддержка, Рейки, работа с энергиями Света. Израиль.',
+    pageTitle: 'Дарья Амрита',
+    avatarAlt: 'Фото — Дарья Амрита',
+    intro: 'Вы проходите через непростой период и нуждаетесь в душевной поддержке?',
+    helpTitle: 'Я здесь для того, чтобы:',
+    help1: 'Предложить эмоциональную и энергетическую опору',
+    help2: 'Подарить теплую женскую поддержку',
+    help3: 'Передать важные послания и наставления',
+    help4: 'Помочь вам осветить ваш путь',
+    aboutTitle: 'Немного обо мне',
+    aboutP1: 'Мне 36 лет, живу в Израиле с 2001 года. Замужем, мама троих замечательных сыновей.',
+    aboutP2: 'Степень бакалавра (B.A.) по управлению системами здравоохранения.',
+    practicesTitle: 'Практики и направления',
+    practice1: 'Космоэнергет',
+    practice2: 'Исцеление энергией Рейки',
+    practice3: 'Работа с энергиями Света',
+    practice4: 'Свечи из натурального пчелиного воска',
+    practice5: 'Энергетические чистки',
+    audienceTitle: 'Кому я могу помочь?',
+    audience1: 'Девушкам и женщинам',
+    audience2: 'Деткам',
+    audience3: 'Людям золотого возраста',
+    audience4: 'В жизненных вызовах и сложных периодах, таких как предоперационный и послеоперационный период, беременность, послеродовой период и не только.',
+    quote: '«Приглашаю вас в своё пространство, чтобы вместе почувствовать, что вам нужно именно сейчас»',
+    contactBtn: '💌 Связаться со мной',
+    contactTitle: 'Контакты',
+    contactText: 'Если вам нужна поддержка или вы хотите связаться со мной:',
+    contactPhoneLead: 'Звоните по телефону:',
+    contactSocialLead: 'Приходите на все контакты:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Благодарю от всего сердца',
+    themeLight: '☀️ Светлая',
+    themeDark: '🌙 Тёмная',
+    ariaTheme: 'Тема оформления',
+    ariaLang: 'Язык сайта',
+  },
+  en: {
+    metaDescription: 'Daria Amrita — emotional and energetic support, Reiki, work with Light energies. Israel.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Photo — Daria Amrita',
+    intro: 'Are you going through a difficult time and need heartfelt support?',
+    helpTitle: 'I am here to:',
+    help1: 'Offer emotional and energetic support',
+    help2: 'Provide warm, feminine care',
+    help3: 'Share important messages and guidance',
+    help4: 'Help illuminate your path',
+    aboutTitle: 'A little about me',
+    aboutP1: 'I am 36, have lived in Israel since 2001. Married, mother of three wonderful sons.',
+    aboutP2: 'Bachelor\'s degree (B.A.) in healthcare systems management.',
+    practicesTitle: 'Practices and directions',
+    practice1: 'Cosmoenergetics practitioner',
+    practice2: 'Reiki energy healing',
+    practice3: 'Work with Light energies',
+    practice4: 'Candles made from natural beeswax',
+    practice5: 'Energetic cleansing',
+    audienceTitle: 'Who can I help?',
+    audience1: 'Girls and women',
+    audience2: 'Children',
+    audience3: 'Seniors',
+    audience4: 'In life challenges and difficult periods such as pre- and post-surgery, pregnancy, postpartum, and more.',
+    quote: '“I invite you into my space so we can feel together what you need right now”',
+    contactBtn: '💌 Contact me',
+    contactTitle: 'Contact',
+    contactText: 'If you need support or wish to reach me:',
+    contactPhoneLead: 'Call by phone:',
+    contactSocialLead: 'Visit all contacts:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Thank you with all my heart',
+    themeLight: '☀️ Light',
+    themeDark: '🌙 Dark',
+    ariaTheme: 'Display theme',
+    ariaLang: 'Site language',
+  },
+  uk: {
+    metaDescription: 'Дарія Амріта — емоційна та енергетична підтримка, Рейкі, робота з енергіями Світла. Ізраїль.',
+    pageTitle: 'Дарія Амріта',
+    avatarAlt: 'Фото — Дарія Амріта',
+    intro: 'Ви проходите через непростий період і потребуєте душевної підтримки?',
+    helpTitle: 'Я тут для того, щоб:',
+    help1: 'Запропонувати емоційну та енергетичну опору',
+    help2: 'Подаруати теплу жіночу підтримку',
+    help3: 'Передати важливі послання та настановлення',
+    help4: 'Допомогти вам освітити ваш шлях',
+    aboutTitle: 'Трохи про мене',
+    aboutP1: 'Мені 36 років, живу в Ізраїлі з 2001 року. Заміжня, мама трьох чудових синів.',
+    aboutP2: 'Ступінь бакалавра (B.A.) з управління системами охорони здоров\'я.',
+    practicesTitle: 'Практики та напрямки',
+    practice1: 'Космоенергет',
+    practice2: 'Зцілення енергією Рейкі',
+    practice3: 'Робота з енергіями Світла',
+    practice4: 'Свічки з натурального бджолиного воску',
+    practice5: 'Енергетичні чистки',
+    audienceTitle: 'Кому я можу допомогти?',
+    audience1: 'Дівчатам і жінкам',
+    audience2: 'Діткам',
+    audience3: 'Людям золотого віку',
+    audience4: 'У життєвих викликах і складних періодах, таких як перед- та післяопераційний період, вагітність, післяпологовий період та не лише.',
+    quote: '«Запрошую вас у своє простір, щоб разом відчути, що вам потрібно саме зараз»',
+    contactBtn: '💌 Зв\'язатися зі мною',
+    contactTitle: 'Контакти',
+    contactText: 'Якщо вам потрібна підтримка або ви хочете зв\'язатися:',
+    contactPhoneLead: 'Телефонуйте:',
+    contactSocialLead: 'Приходьте на всі контакти:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Дякую від усього серця',
+    themeLight: '☀️ Світла',
+    themeDark: '🌙 Темна',
+    ariaTheme: 'Тема оформлення',
+    ariaLang: 'Мова сайту',
+  },
+  de: {
+    metaDescription: 'Daria Amrita — emotionale und energetische Unterstützung, Reiki, Arbeit mit Lichtenergien. Israel.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Foto — Daria Amrita',
+    intro: 'Durchleben Sie eine schwierige Zeit und brauchen seelische Unterstützung?',
+    helpTitle: 'Ich bin da, um:',
+    help1: 'Emotionale und energetische Stütze zu bieten',
+    help2: 'Warme, weibliche Unterstützung zu schenken',
+    help3: 'Wichtige Botschaften und Anleitung zu geben',
+    help4: 'Ihnen zu helfen, Ihren Weg zu erhellen',
+    aboutTitle: 'Ein wenig über mich',
+    aboutP1: 'Ich bin 36, lebe seit 2001 in Israel. Verheiratet, Mutter von drei wunderbaren Söhnen.',
+    aboutP2: 'Bachelor-Abschluss (B.A.) in Management von Gesundheitssystemen.',
+    practicesTitle: 'Praktiken und Richtungen',
+    practice1: 'Kosmoenergetikerin',
+    practice2: 'Reiki-Energieheilung',
+    practice3: 'Arbeit mit Lichtenergien',
+    practice4: 'Kerzen aus natürlichem Bienenwachs',
+    practice5: 'Energetische Reinigungen',
+    audienceTitle: 'Wem kann ich helfen?',
+    audience1: 'Mädchen und Frauen',
+    audience2: 'Kindern',
+    audience3: 'Menschen im goldenen Alter',
+    audience4: 'In Lebensherausforderungen und schwierigen Phasen wie vor und nach Operationen, Schwangerschaft, Wochenbett und mehr.',
+    quote: '„Ich lade Sie in meinen Raum ein, damit wir gemeinsam spüren, was Sie gerade brauchen“',
+    contactBtn: '💌 Kontakt aufnehmen',
+    contactTitle: 'Kontakt',
+    contactText: 'Wenn Sie Unterstützung brauchen oder mich erreichen möchten:',
+    contactPhoneLead: 'Rufen Sie an:',
+    contactSocialLead: 'Besuchen Sie alle Kontakte:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Von ganzem Herzen danke ich Ihnen',
+    themeLight: '☀️ Hell',
+    themeDark: '🌙 Dunkel',
+    ariaTheme: 'Darstellungsthema',
+    ariaLang: 'Sprache der Website',
+  },
+  fr: {
+    metaDescription: 'Daria Amrita — soutien émotionnel et énergétique, Reiki, travail avec les énergies de Lumière. Israël.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Photo — Daria Amrita',
+    intro: 'Vous traversez une période difficile et avez besoin de soutien du cœur ?',
+    helpTitle: 'Je suis là pour :',
+    help1: 'Offrir un soutien émotionnel et énergétique',
+    help2: 'Apporter une chaleureuse présence féminine',
+    help3: 'Transmettre des messages et des enseignements importants',
+    help4: 'Vous aider à éclairer votre chemin',
+    aboutTitle: 'Un peu sur moi',
+    aboutP1: 'J\'ai 36 ans, je vis en Israël depuis 2001. Mariée, mère de trois merveilleux fils.',
+    aboutP2: 'Licence (B.A.) en gestion des systèmes de santé.',
+    practicesTitle: 'Pratiques et orientations',
+    practice1: 'Cosmoénergéticienne',
+    practice2: 'Guérison par l\'énergie Reiki',
+    practice3: 'Travail avec les énergies de Lumière',
+    practice4: 'Bougies en cire d\'abeille naturelle',
+    practice5: 'Nettoyages énergétiques',
+    audienceTitle: 'À qui puis-je aider ?',
+    audience1: 'Aux filles et aux femmes',
+    audience2: 'Aux enfants',
+    audience3: 'Aux personnes d\'un certain âge',
+    audience4: 'Dans les défis de la vie et les périodes difficiles : avant et après une opération, grossesse, post-partum, et plus encore.',
+    quote: '« Je vous invite dans mon espace pour ressentir ensemble ce dont vous avez besoin maintenant »',
+    contactBtn: '💌 Me contacter',
+    contactTitle: 'Contact',
+    contactText: 'Si vous avez besoin de soutien ou souhaitez me joindre :',
+    contactPhoneLead: 'Appelez par téléphone :',
+    contactSocialLead: 'Accédez à tous les contacts :',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Merci de tout mon cœur',
+    themeLight: '☀️ Clair',
+    themeDark: '🌙 Sombre',
+    ariaTheme: 'Thème d\'affichage',
+    ariaLang: 'Langue du site',
+  },
+  es: {
+    metaDescription: 'Daria Amrita — apoyo emocional y energético, Reiki, trabajo con energías de Luz. Israel.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Foto — Daria Amrita',
+    intro: '¿Está atravesando un período difícil y necesita apoyo del alma?',
+    helpTitle: 'Estoy aquí para:',
+    help1: 'Ofrecer apoyo emocional y energético',
+    help2: 'Brindar un cálido apoyo femenino',
+    help3: 'Transmitir mensajes y orientaciones importantes',
+    help4: 'Ayudarle a iluminar su camino',
+    aboutTitle: 'Un poco sobre mí',
+    aboutP1: 'Tengo 36 años, vivo en Israel desde 2001. Casada, madre de tres hijos maravillosos.',
+    aboutP2: 'Licenciatura (B.A.) en gestión de sistemas de salud.',
+    practicesTitle: 'Prácticas y áreas',
+    practice1: 'Cosmoenergética',
+    practice2: 'Sanación con energía Reiki',
+    practice3: 'Trabajo con energías de Luz',
+    practice4: 'Velas de cera natural de abeja',
+    practice5: 'Limpiezas energéticas',
+    audienceTitle: '¿A quién puedo ayudar?',
+    audience1: 'A niñas y mujeres',
+    audience2: 'A niños',
+    audience3: 'A personas de la tercera edad',
+    audience4: 'En desafíos de la vida y períodos difíciles: pre y post cirugía, embarazo, posparto y más.',
+    quote: '«Les invito a mi espacio para sentir juntos lo que necesitan ahora mismo»',
+    contactBtn: '💌 Contactarme',
+    contactTitle: 'Contacto',
+    contactText: 'Si necesita apoyo o desea comunicarse:',
+    contactPhoneLead: 'Llame por teléfono:',
+    contactSocialLead: 'Acceda a todos los contactos:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Gracias de todo corazón',
+    themeLight: '☀️ Claro',
+    themeDark: '🌙 Oscuro',
+    ariaTheme: 'Tema de visualización',
+    ariaLang: 'Idioma del sitio',
+  },
+  it: {
+    metaDescription: 'Daria Amrita — supporto emotivo ed energetico, Reiki, lavoro con le energie della Luce. Israele.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Foto — Daria Amrita',
+    intro: 'State attraversando un periodo difficile e avete bisogno di supporto dell\'anima?',
+    helpTitle: 'Sono qui per:',
+    help1: 'Offrire sostegno emotivo ed energetico',
+    help2: 'Donare un caldo supporto femminile',
+    help3: 'Trasmettere messaggi e insegnamenti importanti',
+    help4: 'Aiutarvi a illuminare il vostro cammino',
+    aboutTitle: 'Un po\' su di me',
+    aboutP1: 'Ho 36 anni, vivo in Israele dal 2001. Sposata, mamma di tre meravigliosi figli.',
+    aboutP2: 'Laurea triennale (B.A.) in gestione dei sistemi sanitari.',
+    practicesTitle: 'Pratiche e direzioni',
+    practice1: 'Cosmoenergetica',
+    practice2: 'Guarigione con energia Reiki',
+    practice3: 'Lavoro con le energie della Luce',
+    practice4: 'Candele di cera d\'api naturale',
+    practice5: 'Pulizie energetiche',
+    audienceTitle: 'A chi posso aiutare?',
+    audience1: 'Ragazze e donne',
+    audience2: 'Bambini',
+    audience3: 'Persone della terza età',
+    audience4: 'Nelle sfide della vita e nei periodi difficili: pre e post operatorio, gravidanza, post parto e altro.',
+    quote: '«Vi invito nel mio spazio per sentire insieme ciò di cui avete bisogno adesso»',
+    contactBtn: '💌 Contattami',
+    contactTitle: 'Contatti',
+    contactText: 'Se avete bisogno di supporto o volete contattarmi:',
+    contactPhoneLead: 'Chiamate per telefono:',
+    contactSocialLead: 'Visitate tutti i contatti:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Grazie di tutto cuore',
+    themeLight: '☀️ Chiaro',
+    themeDark: '🌙 Scuro',
+    ariaTheme: 'Tema di visualizzazione',
+    ariaLang: 'Lingua del sito',
+  },
+  pt: {
+    metaDescription: 'Daria Amrita — apoio emocional e energético, Reiki, trabalho com energias da Luz. Israel.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Foto — Daria Amrita',
+    intro: 'Está passando por um período difícil e precisa de apoio da alma?',
+    helpTitle: 'Estou aqui para:',
+    help1: 'Oferecer apoio emocional e energético',
+    help2: 'Oferecer um acolhimento feminino caloroso',
+    help3: 'Transmitir mensagens e orientações importantes',
+    help4: 'Ajudar a iluminar o seu caminho',
+    aboutTitle: 'Um pouco sobre mim',
+    aboutP1: 'Tenho 36 anos, vivo em Israel desde 2001. Casada, mãe de três filhos maravilhosos.',
+    aboutP2: 'Licenciatura (B.A.) em gestão de sistemas de saúde.',
+    practicesTitle: 'Práticas e áreas',
+    practice1: 'Cosmoenergética',
+    practice2: 'Cura com energia Reiki',
+    practice3: 'Trabalho com energias da Luz',
+    practice4: 'Velas de cera natural de abelha',
+    practice5: 'Limpezas energéticas',
+    audienceTitle: 'A quem posso ajudar?',
+    audience1: 'Meninas e mulheres',
+    audience2: 'Crianças',
+    audience3: 'Pessoas da terceira idade',
+    audience4: 'Em desafios da vida e períodos difíceis: pré e pós-operatório, gravidez, pós-parto e mais.',
+    quote: '«Convido-vos ao meu espaço para sentirmos juntos o que precisam agora»',
+    contactBtn: '💌 Entrar em contacto',
+    contactTitle: 'Contactos',
+    contactText: 'Se precisam de apoio ou querem falar comigo:',
+    contactPhoneLead: 'Ligue por telefone:',
+    contactSocialLead: 'Acedam a todos os contactos:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Agradeço de todo o coração',
+    themeLight: '☀️ Claro',
+    themeDark: '🌙 Escuro',
+    ariaTheme: 'Tema de exibição',
+    ariaLang: 'Idioma do site',
+  },
+  pl: {
+    metaDescription: 'Daria Amrita — wsparcie emocjonalne i energetyczne, Reiki, praca z energiami Światła. Izrael.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Zdjęcie — Daria Amrita',
+    intro: 'Przechodzisz trudny okres i potrzebujesz wsparcia dla duszy?',
+    helpTitle: 'Jestem tu, aby:',
+    help1: 'Zaoferować emocjonalne i energetyczne wsparcie',
+    help2: 'Obdarować ciepłą, kobiecą opieką',
+    help3: 'Przekazać ważne przesłania i wskazówki',
+    help4: 'Pomóc rozświetlić Twoją drogę',
+    aboutTitle: 'Trochę o mnie',
+    aboutP1: 'Mam 36 lat, mieszkam w Izraelu od 2001 roku. Zamężna, mama trzech wspaniałych synów.',
+    aboutP2: 'Licencjat (B.A.) z zarządzania systemami ochrony zdrowia.',
+    practicesTitle: 'Praktyki i kierunki',
+    practice1: 'Kosmoenergetyczka',
+    practice2: 'Uzdrawianie energią Reiki',
+    practice3: 'Praca z energiami Światła',
+    practice4: 'Świece z naturalnego wosku pszczelego',
+    practice5: 'Oczyszczenia energetyczne',
+    audienceTitle: 'Komu mogę pomóc?',
+    audience1: 'Dziewczętom i kobietom',
+    audience2: 'Dzieciom',
+    audience3: 'Osobom w złotym wieku',
+    audience4: 'W wyzwaniach życia i trudnych okresach: przed i po operacji, ciąża, połóg i nie tylko.',
+    quote: '«Zapraszam do mojej przestrzeni, aby wspólnie poczuć, czego potrzebujesz właśnie teraz»',
+    contactBtn: '💌 Skontaktuj się',
+    contactTitle: 'Kontakt',
+    contactText: 'Jeśli potrzebujesz wsparcia lub chcesz się skontaktować:',
+    contactPhoneLead: 'Zadzwoń pod numer telefonu:',
+    contactSocialLead: 'Przejdźcie do wszystkich kontaktów:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Dziękuję z całego serca',
+    themeLight: '☀️ Jasny',
+    themeDark: '🌙 Ciemny',
+    ariaTheme: 'Motyw wyświetlania',
+    ariaLang: 'Język strony',
+  },
+  tr: {
+    metaDescription: 'Daria Amrita — duygusal ve enerjetik destek, Reiki, Işık enerjileriyle çalışma. İsrail.',
+    pageTitle: 'Daria Amrita',
+    avatarAlt: 'Fotoğraf — Daria Amrita',
+    intro: 'Zor bir dönemden geçiyor ve ruhsal desteğe mi ihtiyaç duyuyorsunuz?',
+    helpTitle: 'Burada olmamın amacı:',
+    help1: 'Duygusal ve enerjetik destek sunmak',
+    help2: 'Sıcak bir kadın desteği vermek',
+    help3: 'Önemli mesajlar ve rehberlik aktarmak',
+    help4: 'Yolunuzu aydınlatmanıza yardımcı olmak',
+    aboutTitle: 'Benim hakkımda',
+    aboutP1: '36 yaşındayım, 2001\'den beri İsrail\'de yaşıyorum. Evliyim, üç harika oğlumun annesiyim.',
+    aboutP2: 'Sağlık sistemleri yönetimi alanında lisans (B.A.) derecesi.',
+    practicesTitle: 'Uygulamalar ve alanlar',
+    practice1: 'Kozmoenerjetik',
+    practice2: 'Reiki enerji şifası',
+    practice3: 'Işık enerjileriyle çalışma',
+    practice4: 'Doğal bal mumundan mumlar',
+    practice5: 'Enerjetik temizlikler',
+    audienceTitle: 'Kime yardımcı olabilirim?',
+    audience1: 'Kızlara ve kadınlara',
+    audience2: 'Çocuklara',
+    audience3: 'Altın yaş insanlarına',
+    audience4: 'Ameliyat öncesi ve sonrası, hamilelik, doğum sonrası gibi yaşam zorlukları ve zor dönemlerde.',
+    quote: '«Şu anda neye ihtiyacınız olduğunu birlikte hissetmek için sizi alanıma davet ediyorum»',
+    contactBtn: '💌 Benimle iletişim',
+    contactTitle: 'İletişim',
+    contactText: 'Desteğe ihtiyacınız varsa veya benimle iletişime geçmek istiyorsanız:',
+    contactPhoneLead: 'Telefonla arayın:',
+    contactSocialLead: 'Tüm iletişim kanallarına geçin:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: 'Tüm kalbimle teşekkür ederim',
+    themeLight: '☀️ Açık',
+    themeDark: '🌙 Koyu',
+    ariaTheme: 'Görünüm teması',
+    ariaLang: 'Site dili',
+  },
+  ar: {
+    metaDescription: 'داريا أمرита — دعم عاطفي وطاقي، ريكي، العمل مع طاقات النور. إسرائيل.',
+    pageTitle: 'داريا أمرита',
+    avatarAlt: 'صورة — داريا أمرита',
+    intro: 'هل تمرين بفترة صعبة وتحتاجين إلى دعم روحي؟',
+    helpTitle: 'أنا هنا من أجل:',
+    help1: 'تقديم دعم عاطفي وطاقي',
+    help2: 'منح دفء ودعم أنثوي',
+    help3: 'نقل رسائل وتوجيهات مهمة',
+    help4: 'مساعدتك في إضاءة طريقك',
+    aboutTitle: 'قليل عني',
+    aboutP1: 'عمري 36 عامًا، أعيش في إسرائيل منذ 2001. متزوجة، أم لثلاثة أبناء رائعين.',
+    aboutP2: 'درجة البكالوريوس (B.A.) في إدارة أنظمة الرعاية الصحية.',
+    practicesTitle: 'الممارسات والمجالات',
+    practice1: 'أخصائية كوزموطاقة',
+    practice2: 'شفاء بطاقة الريكي',
+    practice3: 'العمل مع طاقات النور',
+    practice4: 'شموع من شمع العسل الطبيعي',
+    practice5: 'تنظيفات طاقية',
+    audienceTitle: 'من يمكنني مساعدته؟',
+    audience1: 'الفتيات والنساء',
+    audience2: 'الأطفال',
+    audience3: 'كبار السن',
+    audience4: 'في تحديات الحياة والفترات الصعبة مثل ما قبل وبعد الجراحة، الحمل، ما بعد الولادة وغير ذلك.',
+    quote: '«أدعوكم إلى مساحتي لنشعر معًا بما تحتاجونه الآن»',
+    contactBtn: '💌 تواصلي معي',
+    contactTitle: 'التواصل',
+    contactText: 'إذا كنتم بحاجة إلى دعم أو تريدون التواصل:',
+    contactPhoneLead: 'اتصلوا بالهاتف:',
+    contactSocialLead: 'انتقلوا إلى جميع وسائل التواصل:',
+    socialWhatsApp: '💬 واتساب',
+    socialYoutube: '▶️ يوتيوب',
+    socialFacebook: '📘 فيسبوك',
+    footer: 'أشكركم من كل قلبي',
+    themeLight: '☀️ فاتح',
+    themeDark: '🌙 داكن',
+    ariaTheme: 'سمة العرض',
+    ariaLang: 'لغة الموقع',
+  },
+  he: {
+    metaDescription: 'דריה אמריטה — תמיכה רגשית ואנרגטית, רייקי, עבודה עם אנרגיות האור. ישראל.',
+    pageTitle: 'דריה אמריטה',
+    avatarAlt: 'תמונה — דריה אמריטה',
+    intro: 'עוברים תקופה לא פשוטה וזקוקים לתמיכה נשמתית?',
+    helpTitle: 'אני כאן כדי:',
+    help1: 'להציע תמיכה רגשית ואנרגטית',
+    help2: 'למנות תמיכה נשית חמה',
+    help3: 'להעביר מסרים והדרכה חשובים',
+    help4: 'לעזור להאיר את דרככם',
+    aboutTitle: 'קצת עליי',
+    aboutP1: 'בת 36, גרה בישראל מאז 2001. נשואה, אם לשלושה בנים נפלאים.',
+    aboutP2: 'תואר ראשון (B.A.) בניהול מערכות בריאות.',
+    practicesTitle: 'פרקטיקות ותחומים',
+    practice1: 'קוסמו-אנרגטית',
+    practice2: 'ריפוי באנרגיית רייקי',
+    practice3: 'עבודה עם אנרגיות האור',
+    practice4: 'נרות משעוות דבורים טבעית',
+    practice5: 'ניקוי אנרגטי',
+    audienceTitle: 'למי אני יכולה לעזור?',
+    audience1: 'לבנות ולנשים',
+    audience2: 'לילדים',
+    audience3: 'לאנשים בגיל הזהב',
+    audience4: 'באתגרי חיים ובתקופות קשות: לפני ואחרי ניתוח, הריון, אחרי לידה ועוד.',
+    quote: '«אני מזמינה אתכם למרחב שלי כדי שנרגיש יחד מה אתם צריכים עכשיו»',
+    contactBtn: '💌 צרו קשר',
+    contactTitle: 'יצירת קשר',
+    contactText: 'אם אתם זקוקים לתמיכה או רוצים ליצור קשר:',
+    contactPhoneLead: 'התקשרו בטלפון:',
+    contactSocialLead: 'עברו לכל אמצעי התקשרות:',
+    socialWhatsApp: '💬 וואטסאפ',
+    socialYoutube: '▶️ יוטיוב',
+    socialFacebook: '📘 פייסבוק',
+    footer: 'תודה מכל הלב',
+    themeLight: '☀️ בהיר',
+    themeDark: '🌙 כהה',
+    ariaTheme: 'ערכת תצוגה',
+    ariaLang: 'שפת האתר',
+  },
+  zh: {
+    metaDescription: '达丽娅·阿姆里塔 — 情感与能量支持、灵气疗法、光之能量工作。以色列。',
+    pageTitle: '达丽娅·阿姆里塔',
+    avatarAlt: '照片 — 达丽娅·阿姆里塔',
+    intro: '您是否正在经历困难时期，需要心灵上的支持？',
+    helpTitle: '我在这里是为了：',
+    help1: '提供情感与能量上的支持',
+    help2: '给予温暖的女性支持',
+    help3: '传递重要的信息与指引',
+    help4: '帮助您照亮前行的道路',
+    aboutTitle: '关于我',
+    aboutP1: '我今年36岁，自2001年起居住在以色列。已婚，是三个优秀儿子的母亲。',
+    aboutP2: '医疗保健系统管理学士学位（B.A.）。',
+    practicesTitle: '实践与方向',
+    practice1: '宇宙能量师',
+    practice2: '灵气能量疗愈',
+    practice3: '光之能量工作',
+    practice4: '天然蜂蜡蜡烛',
+    practice5: '能量净化',
+    audienceTitle: '我可以帮助谁？',
+    audience1: '女孩与女性',
+    audience2: '儿童',
+    audience3: '长者',
+    audience4: '在人生挑战与困难时期：手术前后、怀孕、产后等。',
+    quote: '「我邀请您进入我的空间，一起感受您此刻真正需要的是什么」',
+    contactBtn: '💌 联系我',
+    contactTitle: '联系方式',
+    contactText: '如果您需要支持或希望联系我：',
+    contactPhoneLead: '请致电：',
+    contactSocialLead: '访问全部联系方式：',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: '衷心感谢',
+    themeLight: '☀️ 浅色',
+    themeDark: '🌙 深色',
+    ariaTheme: '显示主题',
+    ariaLang: '网站语言',
+  },
+  ja: {
+    metaDescription: 'ダリア・アムリタ — 感情とエネルギーのサポート、レイキ、光のエネルギーのワーク。イスラエル。',
+    pageTitle: 'ダリア・アムリタ',
+    avatarAlt: '写真 — ダリア・アムリタ',
+    intro: '困難な時期を過ごし、心の支えが必要ですか？',
+    helpTitle: '私がここにいるのは：',
+    help1: '感情的・エネルギー的な支えを提供するため',
+    help2: '温かい女性のサポートを届けるため',
+    help3: '大切なメッセージと導きを伝えるため',
+    help4: 'あなたの道を照らすお手伝いをするため',
+    aboutTitle: '私について',
+    aboutP1: '36歳、2001年からイスラエルに住んでいます。既婚、素晴らしい三人の息子の母です。',
+    aboutP2: '医療システム管理の学士号（B.A.）を取得。',
+    practicesTitle: '実践と分野',
+    practice1: 'コスモエネルゲティック',
+    practice2: 'レイキエネルギーヒーリング',
+    practice3: '光のエネルギーのワーク',
+    practice4: '天然蜜蝋のキャンドル',
+    practice5: 'エネルギーの浄化',
+    audienceTitle: '誰をサポートできますか？',
+    audience1: '女の子と女性',
+    audience2: 'お子さま',
+    audience3: 'シニアの方',
+    audience4: '手術前後、妊娠、産後など、人生の挑戦や困難な時期に。',
+    quote: '「今あなたに必要なものを一緒に感じるために、私の空間へお招きします」',
+    contactBtn: '💌 お問い合わせ',
+    contactTitle: '連絡先',
+    contactText: 'サポートが必要な方、ご連絡をご希望の方：',
+    contactPhoneLead: 'お電話ください：',
+    contactSocialLead: 'すべての連絡先へどうぞ：',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: '心より感謝いたします',
+    themeLight: '☀️ ライト',
+    themeDark: '🌙 ダーク',
+    ariaTheme: '表示テーマ',
+    ariaLang: 'サイトの言語',
+  },
+  ko: {
+    metaDescription: '다리아 암리타 — 감정·에너지 지원, 레이키, 빛의 에너지 작업. 이스라엘.',
+    pageTitle: '다리아 암리타',
+    avatarAlt: '사진 — 다리아 암리타',
+    intro: '힘든 시기를 겪으며 마음의 지지가 필요하신가요?',
+    helpTitle: '저는 여기 있습니다:',
+    help1: '감정적·에너지적 지지 제공',
+    help2: '따뜻한 여성적 지지 전달',
+    help3: '중요한 메시지와 안내 전달',
+    help4: '당신의 길을 밝히는 데 도움',
+    aboutTitle: '저에 대해',
+    aboutP1: '36세, 2001년부터 이스라엘에 거주합니다. 기혼, 훌륭한 세 아들의 어머니입니다.',
+    aboutP2: '의료 시스템 관리 학사(B.A.) 학위.',
+    practicesTitle: '실천과 분야',
+    practice1: '코스모에너제틱',
+    practice2: '레이키 에너지 치유',
+    practice3: '빛의 에너지 작업',
+    practice4: '천연 밀랍 양초',
+    practice5: '에너지 정화',
+    audienceTitle: '누구를 도울 수 있나요?',
+    audience1: '소녀와 여성',
+    audience2: '아이들',
+    audience3: '어르신',
+    audience4: '수술 전후, 임신, 산후 등 인생의 도전과 어려운 시기에.',
+    quote: '「지금 당신에게 필요한 것을 함께 느끼기 위해 제 공간으로 초대합니다」',
+    contactBtn: '💌 연락하기',
+    contactTitle: '연락처',
+    contactText: '지원이 필요하시거나 연락을 원하시면:',
+    contactPhoneLead: '전화로 연락해 주세요:',
+    contactSocialLead: '모든 연락처로 이동해 주세요:',
+    socialWhatsApp: '💬 WhatsApp',
+    socialYoutube: '▶️ YouTube',
+    socialFacebook: '📘 Facebook',
+    footer: '진심으로 감사드립니다',
+    themeLight: '☀️ 라이트',
+    themeDark: '🌙 다크',
+    ariaTheme: '표시 테마',
+    ariaLang: '사이트 언어',
+  },
+};
+
+  const RTL_LANGS = ['ar', 'he'];
+  const DEFAULT_LANG = 'en';
+
+  const THEME_KEY = 'theme';
+  const LANG_KEY = 'lang';
+  const root = document.documentElement;
+  const themeButtons = document.querySelectorAll('[data-theme-set]');
+  const langSelect = document.getElementById('lang-select');
+  const themeSwitch = document.querySelector('.theme-switch');
+  const metaDescription = document.querySelector('meta[name="description"]');
+
+  function applyLanguage(lang) {
+    const strings = TRANSLATIONS[lang] || TRANSLATIONS[DEFAULT_LANG];
+    const activeLang = TRANSLATIONS[lang] ? lang : DEFAULT_LANG;
+
+    root.lang = activeLang;
+    root.dir = RTL_LANGS.indexOf(activeLang) !== -1 ? 'rtl' : 'ltr';
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      const key = el.getAttribute('data-i18n');
+      if (strings[key]) {
+        el.textContent = strings[key];
+      }
+    });
+
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+      const key = el.getAttribute('data-i18n-alt');
+      if (strings[key]) {
+        el.alt = strings[key];
+      }
+    });
+
+    if (metaDescription && strings.metaDescription) {
+      metaDescription.setAttribute('content', strings.metaDescription);
+    }
+
+    if (strings.pageTitle) {
+      document.title = strings.pageTitle;
+    }
+
+    if (themeSwitch && strings.ariaTheme) {
+      themeSwitch.setAttribute('aria-label', strings.ariaTheme);
+    }
+
+    if (langSelect && strings.ariaLang) {
+      langSelect.setAttribute('aria-label', strings.ariaLang);
+    }
+
+    if (langSelect) {
+      langSelect.value = activeLang;
+    }
+
+    localStorage.setItem(LANG_KEY, activeLang);
+  }
+
+  if (langSelect) {
+    langSelect.addEventListener('change', function () {
+      applyLanguage(langSelect.value);
+    });
+
+    const savedLang = localStorage.getItem(LANG_KEY);
+    if (savedLang && TRANSLATIONS[savedLang]) {
+      applyLanguage(savedLang);
+    } else {
+      applyLanguage(DEFAULT_LANG);
+    }
+  }
+
+  function setTheme(theme) {
+    const isDark = theme === 'dark';
+
+    if (isDark) {
+      root.setAttribute('data-theme', 'dark');
+    } else {
+      root.removeAttribute('data-theme');
+    }
+
+    localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+
+    themeButtons.forEach(function (btn) {
+      const active = btn.getAttribute('data-theme-set') === theme;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  themeButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setTheme(btn.getAttribute('data-theme-set'));
+    });
+  });
+
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  if (savedTheme === 'dark' || savedTheme === 'light') {
+    setTheme(savedTheme);
+  }
+
+  const contactButton = document.querySelector('[data-scroll-to="contact"]');
+  const contactSection = document.getElementById('contact');
+
+  if (contactButton && contactSection) {
+    contactButton.addEventListener('click', function (event) {
+      event.preventDefault();
+      contactSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      contactSection.setAttribute('tabindex', '-1');
+      contactSection.focus({ preventScroll: true });
+    });
+  }
+})();
+
+  </script>
 </body>
 </html>
